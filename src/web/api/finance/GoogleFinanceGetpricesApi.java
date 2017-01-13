@@ -109,7 +109,7 @@ public class GoogleFinanceGetpricesApi {
 	
 	
 	public static void main(String[] args) {
-		double[][] data = getData("GOOG", 600);
+		double[][] data = getData("GOOG", 120, "1d");
 		
 		for(int i=0;i<data.length;++i) {
 			System.out.println(Arrays.toString(data[i]));
