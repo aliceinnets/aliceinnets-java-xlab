@@ -88,7 +88,13 @@ public class GoogleFinanceGetpricesApi {
 			
 			for(int j=1;j<data[0].length;++j) {
 				String[] dataString = bodyTextLines[j+7].split(",");
-				data[0][j] = firstTimeStamp + timeInterval * Double.parseDouble(dataString[0]);
+				if(dataString[0].contains("a")) {
+					firstTimeStamp = Double.parseDouble(dataString[0].replace("a", ""));
+					data[0][j] = firstTimeStamp;
+				} else {
+					data[0][j] = firstTimeStamp + timeInterval * Double.parseDouble(dataString[0]);
+				}
+				
 				for(int i=1;i<data.length;++i) {
 					data[i][j] = Double.parseDouble(dataString[i]);
 				}
@@ -103,7 +109,7 @@ public class GoogleFinanceGetpricesApi {
 	
 	
 	public static void main(String[] args) {
-		double[][] data = getData("GOOG");
+		double[][] data = getData("GOOG", 600);
 		
 		for(int i=0;i<data.length;++i) {
 			System.out.println(Arrays.toString(data[i]));
