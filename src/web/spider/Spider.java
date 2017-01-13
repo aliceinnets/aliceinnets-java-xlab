@@ -1,4 +1,4 @@
-package xlab.web.spider;
+package web.spider;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
