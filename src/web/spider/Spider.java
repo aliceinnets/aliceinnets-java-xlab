@@ -9,6 +9,13 @@ import org.jsoup.select.Elements;
 
 import util.OneLiners;
 
+/**
+ * This class crawls web pages link to link and collects some data, 
+ * e.g. connections between pages, from a html document.
+ * 
+ * @author alice<aliceinnets@gmail.com>
+ *
+ */
 public class Spider {
 	
 	public static final String USER_AGENT = "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/535.1 (KHTML, like Gecko) Chrome/13.0.782.112 Safari/535.1"; 
@@ -22,6 +29,26 @@ public class Spider {
 	List<Integer[]> pageWordCounts;
 	
 	
+	public Spider(String url) {
+		this(url, 100, null);
+	}
+	
+	
+	public Spider(String url, int numPagesToSearch) {
+		this(url, numPagesToSearch, null);
+	}
+	
+	
+	public Spider(String url, String[] words) {
+		this(url, 100, words);
+	}
+	
+	/**
+	 * 
+	 * @param url the link to start crawling
+	 * @param numPagesToSearch the number of pages to search, the default value is 100 
+	 * @param words words to collect
+	 */
 	public Spider(String url, int numPagesToSearch, String[] words) {
 		pagesToVisit = new LinkedList<String>();
 		pagesToVisit.add(url);
@@ -107,6 +134,11 @@ public class Spider {
 
 	public void setPagesToVisit(List<String> pagesToVisit) {
 		this.pagesToVisit = pagesToVisit;
+	}
+	
+	
+	public void addPagesToVisit(List<String> pagesToVisit) {
+		this.pagesToVisit.addAll(pagesToVisit);
 	}
 
 
