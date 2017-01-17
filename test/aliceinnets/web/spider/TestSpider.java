@@ -1,8 +1,9 @@
-package web.spider;
+package aliceinnets.web.spider;
 
 import java.util.Arrays;
 import java.util.List;
 
+import aliceinnets.web.spider.Spider;
 import junit.framework.TestCase;
 
 public class TestSpider extends TestCase {

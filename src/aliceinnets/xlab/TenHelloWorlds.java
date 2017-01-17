@@ -1,3 +1,4 @@
+package aliceinnets.xlab;
 
 public class TenHelloWorlds {
 	public static void main(String[] args) {

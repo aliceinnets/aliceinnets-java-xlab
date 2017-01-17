@@ -1,3 +1,4 @@
+package aliceinnets.xlab;
 
 public class CountableObject implements Comparable<CountableObject>{
 	public Object object;

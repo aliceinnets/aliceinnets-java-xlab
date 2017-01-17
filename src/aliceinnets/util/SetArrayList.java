@@ -1,4 +1,4 @@
-package util;
+package aliceinnets.util;
 
 import java.util.ArrayList;
 import java.util.Collection;

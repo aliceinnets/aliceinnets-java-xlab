@@ -1,4 +1,4 @@
-package web.spider;
+package aliceinnets.web.spider;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
@@ -7,7 +7,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import util.OneLiners;
+import aliceinnets.util.OneLiners;
 
 /**
  * This class crawls web pages link to link and collects some data, 

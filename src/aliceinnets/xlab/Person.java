@@ -1,3 +1,4 @@
+package aliceinnets.xlab;
 
 public class Person implements Comparable<Person>{
 	public String name;

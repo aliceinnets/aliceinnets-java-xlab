@@ -1,4 +1,4 @@
-package util;
+package aliceinnets.util;
 
 import java.lang.reflect.Method;
 
@@ -60,10 +60,11 @@ public class MethodGenerator {
     }
 
     public static void main(String[] args) {
-        System.out.println(generateBinaryArrayMethod(Math.class, "add", long.class, long.class));
-        System.out.println(generateBinaryArrayMethod(Math.class, "subtract", long.class, long.class));
-        System.out.println(generateBinaryArrayMethod(Math.class, "mul", long.class, long.class));
-        System.out.println(generateBinaryArrayMethod(Math.class, "divide", long.class, long.class));
+    	
+        System.out.println(generateBinaryArrayMethod(MathPlus.class, "add", long.class, long.class));
+        System.out.println(generateBinaryArrayMethod(MathPlus.class, "subtract", long.class, long.class));
+        System.out.println(generateBinaryArrayMethod(MathPlus.class, "mul", long.class, long.class));
+        System.out.println(generateBinaryArrayMethod(MathPlus.class, "divide", long.class, long.class));
         
     }
 

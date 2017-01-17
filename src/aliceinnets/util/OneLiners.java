@@ -1,4 +1,4 @@
-package util;
+package aliceinnets.util;
 import java.util.Scanner;
 
 public class OneLiners {

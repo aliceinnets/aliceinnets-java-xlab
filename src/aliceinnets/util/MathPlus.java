@@ -1,6 +1,6 @@
-package util;
+package aliceinnets.util;
 
-public class Math {
+public class MathPlus {
 	
 	public static long add(long a, long b) {
         return a+b;

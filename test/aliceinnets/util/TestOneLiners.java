@@ -1,6 +1,7 @@
+package aliceinnets.util;
+import aliceinnets.util.OneLiners;
+import aliceinnets.util.Stopwatch;
 import junit.framework.TestCase;
-import util.OneLiners;
-import util.Stopwatch;
 
 public class TestOneLiners extends TestCase {
 	

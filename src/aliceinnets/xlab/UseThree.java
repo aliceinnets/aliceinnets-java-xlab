@@ -1,3 +1,4 @@
+package aliceinnets.xlab;
 
 public class UseThree {
 	public static void main(String[] args) {

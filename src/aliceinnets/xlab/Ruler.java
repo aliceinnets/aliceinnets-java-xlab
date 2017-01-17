@@ -1,3 +1,4 @@
+package aliceinnets.xlab;
 
 public class Ruler { 
 	public static void main(String[] args) { 
