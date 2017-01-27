@@ -1,4 +1,5 @@
 package aliceinnets.web.spider;
+
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
@@ -81,17 +82,21 @@ public class Spider {
 				break;
 			}
 			
-			try {
-				String url = pagesToVisit.remove(0);
-				Document document = Jsoup.connect(url).userAgent(USER_AGENT).get();
-				
-				digestPage(document);
-				pagesVisited.add(url);
-				System.out.println(String.format("visited page, %s", url));
-				
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			String url = pagesToVisit.remove(0);
+			crawl(url);
+		}
+	}
+	
+	
+	public void crawl(String url) {
+		try {
+			Document document = Jsoup.connect(url).userAgent(USER_AGENT).get();
+			
+			digestPage(document);
+			pagesVisited.add(url);
+			System.out.println(String.format("visited page, %s", url));
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 	
