@@ -4,6 +4,15 @@ import java.util.Scanner;
 public class OneLiners {
 	
 	
+	public final static double[] linspace(double x0, double x1, int n){
+		if(n == 1) return new double[]{ (x0+x1)/2 };
+        double f[] = new double[n];
+        double dx = (x1 - x0)/(double)(n - 1.0);
+        for(int i=0; i<n; i++)
+            f[i] = x0 + i*dx;
+        return f;
+	}
+	
 	public static int countWordUsingScanner(String document, String word) {
 		return countWordUsingScanner(document, word, false, false, false);
 	}
