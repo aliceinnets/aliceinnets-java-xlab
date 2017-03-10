@@ -1,8 +1,28 @@
 package aliceinnets.util;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.Scanner;
 
 public class OneLiners {
 	
+	
+	public final static String read(String pathname) throws FileNotFoundException {
+		Scanner scanner = new Scanner(new File(pathname));
+		scanner.useDelimiter("\\Z");
+		
+		String s = scanner.next();
+		scanner.close();
+		
+		return s;
+	}
+	
+	
+	public final static void write(String pathname, String s) throws FileNotFoundException {
+		PrintWriter out = new PrintWriter(new File(pathname));
+		out.write(s);
+		out.close();
+	}
 	
 	public final static double[] linspace(double x0, double x1, int n){
 		if(n == 1) return new double[]{ (x0+x1)/2 };
@@ -13,17 +33,17 @@ public class OneLiners {
         return f;
 	}
 	
-	public static int countWordUsingScanner(String document, String word) {
+	public final static int countWordUsingScanner(String document, String word) {
 		return countWordUsingScanner(document, word, false, false, false);
 	}
 	
 	
-	public static int countWordUsingScanner(String document, String word, boolean caseSensitive) {
+	public final static int countWordUsingScanner(String document, String word, boolean caseSensitive) {
 		return countWordUsingScanner(document, word, caseSensitive, false, false);
 	}
 	
 	
-	public static int countWordUsingScanner(String document, String word, boolean caseSensitive, boolean wholeWord) {
+	public final static int countWordUsingScanner(String document, String word, boolean caseSensitive, boolean wholeWord) {
 		return countWordUsingScanner(document, word, caseSensitive, wholeWord, false);
 	}
 	
@@ -37,7 +57,7 @@ public class OneLiners {
 	 * @param excludeNonWordChars
 	 * @return number of occurrences of the word in the document
 	 */
-	public static int countWordUsingScanner(String document, String word, boolean caseSensitive, boolean wholeWord, boolean excludeNonWordChars) {
+	public final static int countWordUsingScanner(String document, String word, boolean caseSensitive, boolean wholeWord, boolean excludeNonWordChars) {
 		int count = 0;
 		
 		if(!caseSensitive) document = document.toLowerCase();
@@ -64,17 +84,17 @@ public class OneLiners {
 	}
 	
 	
-	public static int countWord(String document, String word) {
+	public final static int countWord(String document, String word) {
 		return countWord(document, word, false, false, false);
 	}
 	
 	
-	public static int countWord(String document, String word, boolean caseSensitive) {
+	public final static int countWord(String document, String word, boolean caseSensitive) {
 		return countWord(document, word, caseSensitive, false, false);
 	}
 	
 	
-	public static int countWord(String document, String word, boolean caseSensitive, boolean wholeWord) {
+	public final static int countWord(String document, String word, boolean caseSensitive, boolean wholeWord) {
 		return countWord(document, word, caseSensitive, wholeWord, false);
 	}
 	
@@ -88,7 +108,7 @@ public class OneLiners {
 	 * @param excludeNonWordChars
 	 * @return number of occurrences of the word in the document
 	 */
-	public static int countWord(String document, String word, boolean caseSensitive, boolean wholeWord, boolean excludeNonWordChars) {
+	public final static int countWord(String document, String word, boolean caseSensitive, boolean wholeWord, boolean excludeNonWordChars) {
 		int count = 0;
 		
 		if(!caseSensitive) document = document.toLowerCase();
