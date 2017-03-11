@@ -83,7 +83,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>aliceinnets</groupId>
-			<artifactId>finance-java</artifactId>
+			<artifactId>java-finance-api</artifactId>
 			<version>1.0.0</version>
 		</dependency>
 	
