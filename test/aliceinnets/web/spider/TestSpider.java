@@ -1,8 +1,10 @@
 package aliceinnets.web.spider;
 
+import java.io.IOException;
 import java.util.Arrays;
-import java.util.List;
-
+import org.jsoup.Jsoup;
+import aliceinnets.util.OneLiners;
+import aliceinnets.web.WebUtils;
 import aliceinnets.web.spider.Spider;
 import junit.framework.TestCase;
 
@@ -13,21 +15,25 @@ public class TestSpider extends TestCase {
 		int numPagesToSearch = 20;
 		String[] words = new String[] { "alice", "github" };
 		
-		Spider spider = new Spider(url, numPagesToSearch, words);
-		spider.crawl();
+		Spider spider = new Spider(url);
+		for(int i=0;i<5;++i) {
+			spider.crawl();
+		}
+		
+		spider.crawl(numPagesToSearch);
 		
 		System.out.println(spider.getPagesToVisit());
 		System.out.println(spider.getPagesVisited());
 		
-		List<String> pageVisited = spider.getPagesVisited();
-		List<String[]> pageLinks = spider.getPageLinks();
-		List<Integer[]> pageWordCounts = spider.getPageWordCounts();
-		
-		for(int i=0;i<pageVisited.size();++i) {
-			System.out.println(pageVisited.get(i));
-			System.out.println(Arrays.toString(pageLinks.get(i)));
-			System.out.println(Arrays.toString(words));
-			System.out.println(Arrays.toString(pageWordCounts.get(i)));
+		for(String page : spider.getPagesCollected()) {
+			try {
+				System.out.println(page);
+				System.out.println(Arrays.toString(WebUtils.getLinksOnPage(page)));
+				System.out.println(Arrays.toString(words));
+				System.out.println(Arrays.toString(OneLiners.countWords(Jsoup.connect(page).get().text(), words)));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 		
 	}

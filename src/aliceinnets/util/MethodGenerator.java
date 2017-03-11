@@ -4,7 +4,7 @@ import java.lang.reflect.Method;
 
 public class MethodGenerator {
     
-    public static String generateBinaryArrayMethod(Class<?> clazz, String methodName, Class parameterType1, Class parameterType2) {
+    public static String generateBinaryArrayMethod(Class<?> clazz, String methodName, Class<?> parameterType1, Class<?> parameterType2) {
         try {
             Method method = clazz.getDeclaredMethod(methodName, parameterType1, parameterType2);
             return generateBinaryArrayMethod(clazz.getName(), method.getName(), method.getReturnType().toString(), method.getParameterTypes()[0].toString(), method.getParameterTypes()[1].toString());

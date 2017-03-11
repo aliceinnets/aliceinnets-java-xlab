@@ -2,9 +2,24 @@ package aliceinnets.util;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class OneLiners {
+	
+	
+	public final static String getAbsoluteDir(Class<?> clazz) {
+		return clazz.getResource(clazz.getName()+".java").getPath().replace(clazz.getSimpleName()+".java", "");
+	}
+	
+	
+	public final static void println(Object object) {
+		if(object.getClass().isArray()) {
+			System.out.println(Arrays.toString((Object[]) object));
+		} else {
+			System.out.println(object);
+		}
+	}
 	
 	
 	public final static String read(String pathname) throws FileNotFoundException {
@@ -18,7 +33,7 @@ public class OneLiners {
 	}
 	
 	
-	public final static void write(String pathname, String s) throws FileNotFoundException {
+	public final static void write(String s, String pathname) throws FileNotFoundException {
 		PrintWriter out = new PrintWriter(new File(pathname));
 		out.write(s);
 		out.close();
@@ -81,6 +96,30 @@ public class OneLiners {
 		scanner.close();
 		
 		return count;
+	}
+	
+	
+	public final static int[] countWords(String document, String[] words) {
+		return countWords(document, words, false, false, false);
+	}
+	
+	
+	public final static int[] countWords(String document, String[] words, boolean caseSensitive) {
+		return countWords(document, words, caseSensitive, false, false);
+	}
+	
+	
+	public final static int[] countWords(String document, String[] words, boolean caseSensitive, boolean wholeWord) {
+		return countWords(document, words, caseSensitive, wholeWord, false);
+	}
+	
+	
+	public final static int[] countWords(String document, String[] words, boolean caseSensitive, boolean wholeWord, boolean excludeNonWordChars) {
+		int[] wordCounts = new int[words.length];
+		for(int i=0;i<wordCounts.length;++i) {
+			wordCounts[i] = countWord(document, words[i], caseSensitive, wholeWord, excludeNonWordChars);
+		}
+		return wordCounts;
 	}
 	
 	

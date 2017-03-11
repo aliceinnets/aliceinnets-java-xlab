@@ -1,8 +1,6 @@
 package aliceinnets.web.spider;
 
 import java.io.IOException;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.LinkedList;
 import java.util.List;
 import org.jsoup.Jsoup;
@@ -10,7 +8,10 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import aliceinnets.util.OneLiners;
+import aliceinnets.web.spider.condition.CollectingAll;
+import aliceinnets.web.spider.condition.CollectingCondition;
+import aliceinnets.web.spider.condition.CrawlingCondition;
+import aliceinnets.web.spider.condition.CrawlingOnce;
 
 /**
  * This class crawls web pages link to link and collects some data, 
@@ -21,26 +22,25 @@ import aliceinnets.util.OneLiners;
  */
 public class Spider {
 	
-	public static final String USER_AGENT = "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/535.1 (KHTML, like Gecko) Chrome/13.0.782.112 Safari/535.1"; 
-	
-	/** maximum body size in MB */
+	/** agent which spider will crawl with */  
+	String userAgent;
+	/** maximum body size of pages in MB */
 	int maxBodySize;
+	/** connection time out in millisecond */
 	int timeout;
 	
-	int numPagesToSearch;
-	List<String> pagesToVisit;
-	List<String> pagesVisited;
+	List<String> pagesToVisit = new LinkedList<String>();
+	List<String> pagesVisited = new LinkedList<String>();
+	List<String> pagesCollected = new LinkedList<String>();
+	List<String> pagesFailedToVisit = new LinkedList<String>();
 	
-	List<String[]> pageLinks;
+	CrawlingCondition crawlingCondition;
+	CollectingCondition collectingCondition;
 	
-	String[] words;
-	List<Integer[]> pageWordCounts;
 	
-	boolean savePageDocuments;
-	List<String> pageDocuments;
-	
-	boolean savePageHtmlDocuments;
-	List<String> pageHtmlDocuments;
+	public Spider() {
+		this(null);
+	}
 	
 	/**
 	 * 
@@ -48,145 +48,77 @@ public class Spider {
 	 * @param url the link to start crawling
 	 */
 	public Spider(String url) {
-		this(url, 100, null);
-	}
-	
-	/**
-	 * 
-	 * 
-	 * @param url the link to start crawling
-	 * @param numPagesToSearch the number of pages to search
-	 */
-	public Spider(String url, int numPagesToSearch) {
-		this(url, numPagesToSearch, null);
-	}
-	
-	/**
-	 * 
-	 * 
-	 * @param url the link to start crawling
-	 * @param words word to collect
-	 */
-	public Spider(String url, String[] words) {
-		this(url, 100, words);
-	}
-	
-	/**
-	 * 
-	 * 
-	 * @param url the link to start crawling
-	 * @param numPagesToSearch the number of pages to search, the default value is 100 
-	 * @param words words to collect
-	 */
-	public Spider(String url, int numPagesToSearch, String[] words) {
+		userAgent = "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/535.1 (KHTML, like Gecko) Chrome/13.0.782.112 Safari/535.1";
 		maxBodySize = 0; // Unlimited body size
-		timeout = 600000;
+		timeout = 60000;
 		
-		this.numPagesToSearch = numPagesToSearch;
-		pagesToVisit = new LinkedList<String>();
-		pagesToVisit.add(url);
-		pagesVisited = new LinkedList<String>();
-		
-		pageLinks = new LinkedList<String[]>();
-		
-		this.words = words;
-		pageWordCounts = new LinkedList<Integer[]>();
-		
-		savePageDocuments = false;
-		pageDocuments = new LinkedList<String>();
-		
-		savePageHtmlDocuments = false;
-		pageHtmlDocuments = new LinkedList<String>();
-		
-	}
-	
-	
-	public static List<String> getLinksOnPage(Document document) {
-		Elements linksOnPage = document.select("a[href]");
-		
-		List<String> links = new LinkedList<String>();
-		for(Element link : linksOnPage) {
-			links.add(link.absUrl("href"));
-		}	
-		return links;
-	}
-	
-	
-	public static Integer[] getWordCounts(Document document, String[] words) {
-		String text = document.text();
-		Integer[] wordCounts = new Integer[words.length];
-		for(int i=0;i<wordCounts.length;++i) {
-			wordCounts[i] = OneLiners.countWord(text, words[i]);
+		if(url != null && !url.equals("")) {
+			pagesToVisit.add(url);
 		}
-		return wordCounts;
+		
+		crawlingCondition = new CrawlingOnce(this);
+		collectingCondition = new CollectingAll();
+		
 	}
 	
 	
-	public void crawl() {
-		while(pagesVisited.size() < numPagesToSearch) {
+	public void crawl(int numPagesToVisit) {
+		int numPagesVisited = 0;
+		while(numPagesVisited < numPagesToVisit) {
 			if(pagesToVisit.isEmpty()) {
 				System.out.println("No pages to visit");
 				break;
 			}
 			
-			String url = pagesToVisit.remove(0);
-			crawl(url);
+			crawl();
+			++numPagesVisited;
 		}
 	}
 	
 	
-	public void crawl(String url) {
+	public String crawl() {
+		return crawl(pagesToVisit.remove(0));
+	}
+	
+	
+	public String crawl(String url) {
 		try {
 			Document document = Jsoup.connect(url)
 //					.header("Accept-Encoding", "gzip, deflate")
-					.userAgent(USER_AGENT)
+					.userAgent(userAgent)
 					.maxBodySize(maxBodySize)
 					.timeout(timeout)
 					.get();
 			
-//			URLConnection connection = new URL(url).openConnection();
-//			URLConnection connection = new URL(url).openConnection(proxy);
-//			connection.addRequestProperty("User-Agent", USER_AGENT);
-//			connection.setConnectTimeout(timeout);
-//			connection.setReadTimeout(timeout);
+			Elements linksOnPage = document.select("a[href]");
+			List<String> links = new LinkedList<String>();
+			for(Element link : linksOnPage) {
+				links.add(link.absUrl("href"));
+			}
 			
-			List<String> links = getLinksOnPage(document);
 			for(String link : links) {
-				if(!pagesVisited.contains(link) && !pagesToVisit.contains(link)) {
+				if(crawlingCondition.shouldCrawl(link)) {
 					pagesToVisit.add(link);
 				}
 			}
 			
-			pageLinks.add(links.toArray(new String[links.size()]));
-			
-			if(savePageDocuments) {
-				pageDocuments.add(document.text());
+			if(collectingCondition.shouldCollect(document)) {
+				pagesCollected.add(url);
+				
+				pagesVisited.add(url);
+				System.out.println(String.format("visited page, %s", url));
+				return url;
+			} else {
+				pagesVisited.add(url);
+				System.out.println(String.format("visited page, %s", url));
+				return null;
 			}
-			
-			if(savePageHtmlDocuments) {
-				pageHtmlDocuments.add(document.html());
-			}
-			
-			if(words != null) {
-				Integer[] wordCount = getWordCounts(document, words);
-				pageWordCounts.add(wordCount);
-			}
-			
-			pagesVisited.add(url);
-			System.out.println(String.format("visited page, %s", url));
 		} catch (IOException e) {
 			e.printStackTrace();
+			pagesFailedToVisit.add(url);
+			System.out.println(String.format("failed to visit page, %s", url));
+			return null;
 		}
-	}
-
-
-	public int getNumPagesToSearch() {
-		return numPagesToSearch;
-	}
-
-
-	public void setNumPagesToSearch(int numPagesToSearch) {
-		this.numPagesToSearch = numPagesToSearch;
 	}
 
 
@@ -205,56 +137,68 @@ public class Spider {
 	}
 
 
-	public String[] getWords() {
-		return words;
-	}
-
-
-	public void setWords(String[] words) {
-		this.words = words;
-		pageWordCounts.clear();
-	}
-
-
 	public List<String> getPagesVisited() {
 		return pagesVisited;
 	}
 
-
-	public List<String[]> getPageLinks() {
-		return pageLinks;
+	public String getUserAgent() {
+		return userAgent;
 	}
 
-
-	public List<Integer[]> getPageWordCounts() {
-		return pageWordCounts;
+	public void setUserAgent(String userAgent) {
+		this.userAgent = userAgent;
 	}
 
-
-	public boolean isSavePageDocuments() {
-		return savePageDocuments;
+	public int getMaxBodySize() {
+		return maxBodySize;
 	}
 
-
-	public void setSavePageDocuments(boolean savePageDocuments) {
-		this.savePageDocuments = savePageDocuments;
+	public void setMaxBodySize(int maxBodySize) {
+		this.maxBodySize = maxBodySize;
 	}
 
-
-	public List<String> getPageDocuments() {
-		return pageDocuments;
+	public int getTimeout() {
+		return timeout;
 	}
 
-	public boolean isSavePageHtmlDocuments() {
-		return savePageHtmlDocuments;
+	public void setTimeout(int timeout) {
+		this.timeout = timeout;
 	}
 
-	public void setSavePageHtmlDocuments(boolean savePageHtmlDocuments) {
-		this.savePageHtmlDocuments = savePageHtmlDocuments;
+	public List<String> getPagesCollected() {
+		return pagesCollected;
 	}
 
-	public List<String> getPageHtmlDocuments() {
-		return pageHtmlDocuments;
+	public void setPagesCollected(List<String> pages) {
+		this.pagesCollected = pages;
+	}
+
+	public CrawlingCondition getCrawlingCondition() {
+		return crawlingCondition;
+	}
+
+	public void setCrawlingCondition(CrawlingCondition crawlingCondition) {
+		this.crawlingCondition = crawlingCondition;
+	}
+
+	public CollectingCondition getCollectingCondition() {
+		return collectingCondition;
+	}
+
+	public void setCollectingCondition(CollectingCondition collectingCondition) {
+		this.collectingCondition = collectingCondition;
+	}
+
+	public void setPagesVisited(List<String> pagesVisited) {
+		this.pagesVisited = pagesVisited;
+	}
+
+	public List<String> getPagesFailedToVisit() {
+		return pagesFailedToVisit;
+	}
+
+	public void setPagesFailedToVisit(List<String> pagesFailedToVisit) {
+		this.pagesFailedToVisit = pagesFailedToVisit;
 	}
 	
 
