@@ -2,7 +2,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>aliceinnets</groupId>
-	<artifactId>xlab-java</artifactId>
+	<artifactId>java-xlabs</artifactId>
 	<version>1.0.0</version>
 	
 	<name>Java eXperimental Labs</name>
@@ -83,7 +83,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>aliceinnets</groupId>
-			<artifactId>finance</artifactId>
+			<artifactId>finance-java</artifactId>
 			<version>1.0.0</version>
 		</dependency>
 	
