@@ -4,6 +4,17 @@
 	<groupId>aliceinnets</groupId>
 	<artifactId>xlab-java</artifactId>
 	<version>1.0.0</version>
+	
+	<name>Java eXperimental Labs</name>
+	<!-- <description></description> -->
+	<url>https://github.com/aliceinnets/${project.artifactId}</url>
+	<inceptionYear>2016</inceptionYear>
+
+	<scm>
+		<connection>scm:git:git@github.com:aliceinnets/${project.artifactId}.git</connection>
+		<developerConnection>scm:git:git@github.com:aliceinnets/${project.artifactId}.git</developerConnection>
+		<url>https://github.com/aliceinnets/${project.artifactId}</url>
+	</scm>
 
 	<distributionManagement>
 		<repository>
@@ -27,7 +38,7 @@
 				<artifactId>site-maven-plugin</artifactId>
 				<version>0.12</version>
 				<configuration>
-					<message>Maven artifacts for ${project.version}</message>  <!-- git commit message -->
+					<message>Deployed ${project.name} version ${project.version}</message>  <!-- git commit message -->
 					<!-- <noJekyll>true</noJekyll> -->                                  <!-- disable webpage processing -->
 					<outputDirectory>${project.build.directory}/mvn-repo</outputDirectory> <!-- matches distribution management repository url above -->
 					<branch>refs/heads/master</branch>                       <!-- remote branch name -->
