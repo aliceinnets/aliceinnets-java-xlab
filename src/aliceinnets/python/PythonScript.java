@@ -8,7 +8,7 @@ import java.io.PrintWriter;
 
 public class PythonScript {
 	
-	public final static String DEFAULT_PATH = System.getProperty("user.home")+"/"+PythonScript.class.getSimpleName()+"/";
+	public final static String DEFAULT_PATH = System.getProperty("user.home") + File.separator+PythonScript.class.getSimpleName() + File.separator;
 	
 	public final static String COMMENT = "#";
 	public final static String LOG_HEADER = COMMENT + "Java exec python script log\n";

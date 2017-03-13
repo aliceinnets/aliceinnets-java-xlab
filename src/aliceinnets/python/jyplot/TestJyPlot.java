@@ -66,7 +66,7 @@ public class TestJyPlot {
 			.ylabel("\"$f$\"", null, null)
 			.ylim(new Double[] { -2.0, 2.0 }, null)
 			.legend(new String[] {"\"a\"", "\"b\""}, new Object[] {"loc=\"lower left\""})
-			.savefig(new Object[] {"\""+PythonScript.DEFAULT_PATH+System.nanoTime()+".pdf\""}, null)
+			.savefig(new Object[] {"r\""+PythonScript.DEFAULT_PATH + System.nanoTime()+".pdf\""}, null)
 			.figure(null, null, null, null, null, null, null, null)
 			.contourf(f, new Object[] {"cmap = cm.jet"})
 //			.contourf(new Object[] {x,x,f, 50}, new Object[] {"cmap = cm.jet"})
@@ -77,7 +77,7 @@ public class TestJyPlot {
 			.ylabel("\"$n_e$ [$10^{19} m^{-3}$]\"", null, null)
 //			.ylim(new Double[] { -2.0, 2.0 }, null)
 //			.legend(new String[] {"\"a\"", "\"b\""}, new Object[] {"loc=\"lower left\""})
-			.savefig(new Object[] {"\""+PythonScript.DEFAULT_PATH+System.nanoTime()+".pdf\""}, null)
+			.savefig(new Object[] {"r\""+PythonScript.DEFAULT_PATH +System.nanoTime()+".pdf\""}, null)
 			.tight_layout(null, null, null, null)
 			.show(null, null)
 			.exec();

@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.regex.Pattern;
 
 public class PythonModule {
 	
@@ -34,6 +35,19 @@ public class PythonModule {
 	
 	
 	public void save() throws FileNotFoundException {
+
+		String[] folders = pathname.split(Pattern.quote(File.separator));
+		
+		String path = folders[0];
+		
+		for (int i = 0; i < folders.length - 2; i++) {
+			path += File.separator + folders[i+1];
+			File pathName = new File(path);
+			if (!pathName.exists() || !pathName.isDirectory()) {
+				pathName.mkdir();
+			}
+		}
+
 		PrintWriter out = new PrintWriter(new File(pathname));
 		out.write(script.toString());
 		out.close();
