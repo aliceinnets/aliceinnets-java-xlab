@@ -8,14 +8,14 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import aliceinnets.web.spider.condition.CollectingAll;
-import aliceinnets.web.spider.condition.CollectingCondition;
-import aliceinnets.web.spider.condition.CrawlingCondition;
-import aliceinnets.web.spider.condition.CrawlingOnce;
+import aliceinnets.web.spider.policy.CollectingAll;
+import aliceinnets.web.spider.policy.CollectingPolicy;
+import aliceinnets.web.spider.policy.CrawlingPolicy;
+import aliceinnets.web.spider.policy.CrawlingOnce;
 
 /**
- * This class crawls web pages link to link and collects some data, 
- * e.g. connections between pages, from a html document.
+ * This class crawls web pages link to link and collects urls  
+ * under {@link CrawlingPolicy} and {@link CollectingPolicy}.
  * 
  * @author alice<aliceinnets@gmail.com>
  *
@@ -34,20 +34,28 @@ public class Spider {
 	List<String> pagesCollected = new LinkedList<String>();
 	List<String> pagesFailedToVisit = new LinkedList<String>();
 	
-	CrawlingCondition crawlingCondition;
-	CollectingCondition collectingCondition;
+	CrawlingPolicy crawlingPolicy;
+	CollectingPolicy collectingPolicy;
 	
 	
-	public Spider() {
-		this(null);
+	/**
+	 * 
+	 * 
+	 * @param url
+	 */
+	public Spider(String url) {
+		this(url, null, null);
+		
 	}
 	
 	/**
 	 * 
 	 * 
-	 * @param url the link to start crawling
+	 * @param url
+	 * @param crawlingPolicy
+	 * @param collectingPolicy
 	 */
-	public Spider(String url) {
+	public Spider(String url, CrawlingPolicy crawlingPolicy, CollectingPolicy collectingPolicy) {
 		userAgent = "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/535.1 (KHTML, like Gecko) Chrome/13.0.782.112 Safari/535.1";
 		maxBodySize = 0; // Unlimited body size
 		timeout = 60000;
@@ -56,8 +64,17 @@ public class Spider {
 			pagesToVisit.add(url);
 		}
 		
-		crawlingCondition = new CrawlingOnce(this);
-		collectingCondition = new CollectingAll();
+		if(crawlingPolicy != null) {
+			this.crawlingPolicy = crawlingPolicy;
+		} else {
+			crawlingPolicy = new CrawlingOnce(this);
+		}
+		
+		if(collectingPolicy != null) {
+			this.collectingPolicy = collectingPolicy;
+		} else {
+			collectingPolicy = new CollectingAll();
+		}
 		
 	}
 	
@@ -70,13 +87,18 @@ public class Spider {
 				break;
 			}
 			
-			crawl();
+			crawl(pagesToVisit.remove(0));
 			++numPagesVisited;
 		}
 	}
 	
 	
 	public String crawl() {
+		if(pagesToVisit.isEmpty()) {
+			System.out.println("No pages to visit");
+			return null;
+		}
+		
 		return crawl(pagesToVisit.remove(0));
 	}
 	
@@ -97,12 +119,12 @@ public class Spider {
 			}
 			
 			for(String link : links) {
-				if(crawlingCondition.shouldCrawl(link)) {
+				if(crawlingPolicy.shouldCrawl(link)) {
 					pagesToVisit.add(link);
 				}
 			}
 			
-			if(collectingCondition.shouldCollect(document)) {
+			if(collectingPolicy.shouldCollect(document)) {
 				pagesCollected.add(url);
 				
 				pagesVisited.add(url);
@@ -122,18 +144,58 @@ public class Spider {
 	}
 
 
+	public String getUserAgent() {
+		return userAgent;
+	}
+
+
+	public void setUserAgent(String userAgent) {
+		this.userAgent = userAgent;
+	}
+
+
+	public int getMaxBodySize() {
+		return maxBodySize;
+	}
+
+
+	public void setMaxBodySize(int maxBodySize) {
+		this.maxBodySize = maxBodySize;
+	}
+
+
+	public int getTimeout() {
+		return timeout;
+	}
+
+
+	public void setTimeout(int timeout) {
+		this.timeout = timeout;
+	}
+
+
+	public CrawlingPolicy getCrawlingPolicy() {
+		return crawlingPolicy;
+	}
+
+
+	public void setCrawlingPolicy(CrawlingPolicy crawlingCondition) {
+		this.crawlingPolicy = crawlingCondition;
+	}
+
+
+	public CollectingPolicy getCollectingPolicy() {
+		return collectingPolicy;
+	}
+
+
+	public void setCollectingPolicy(CollectingPolicy collectingPolicy) {
+		this.collectingPolicy = collectingPolicy;
+	}
+
+
 	public List<String> getPagesToVisit() {
 		return pagesToVisit;
-	}
-
-
-	public void setPagesToVisit(List<String> pagesToVisit) {
-		this.pagesToVisit = pagesToVisit;
-	}
-	
-	
-	public void addPagesToVisit(List<String> pagesToVisit) {
-		this.pagesToVisit.addAll(pagesToVisit);
 	}
 
 
@@ -141,64 +203,14 @@ public class Spider {
 		return pagesVisited;
 	}
 
-	public String getUserAgent() {
-		return userAgent;
-	}
-
-	public void setUserAgent(String userAgent) {
-		this.userAgent = userAgent;
-	}
-
-	public int getMaxBodySize() {
-		return maxBodySize;
-	}
-
-	public void setMaxBodySize(int maxBodySize) {
-		this.maxBodySize = maxBodySize;
-	}
-
-	public int getTimeout() {
-		return timeout;
-	}
-
-	public void setTimeout(int timeout) {
-		this.timeout = timeout;
-	}
 
 	public List<String> getPagesCollected() {
 		return pagesCollected;
 	}
 
-	public void setPagesCollected(List<String> pages) {
-		this.pagesCollected = pages;
-	}
-
-	public CrawlingCondition getCrawlingCondition() {
-		return crawlingCondition;
-	}
-
-	public void setCrawlingCondition(CrawlingCondition crawlingCondition) {
-		this.crawlingCondition = crawlingCondition;
-	}
-
-	public CollectingCondition getCollectingCondition() {
-		return collectingCondition;
-	}
-
-	public void setCollectingCondition(CollectingCondition collectingCondition) {
-		this.collectingCondition = collectingCondition;
-	}
-
-	public void setPagesVisited(List<String> pagesVisited) {
-		this.pagesVisited = pagesVisited;
-	}
 
 	public List<String> getPagesFailedToVisit() {
 		return pagesFailedToVisit;
-	}
-
-	public void setPagesFailedToVisit(List<String> pagesFailedToVisit) {
-		this.pagesFailedToVisit = pagesFailedToVisit;
 	}
 	
 

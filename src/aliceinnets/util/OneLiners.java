@@ -3,9 +3,19 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Scanner;
 
 public class OneLiners {
+	
+	public static Class<?> getElementType(Class<?> type) {
+		if(type.getComponentType() == null) {
+			return type;
+		} else {
+			return getElementType(type.getComponentType());
+		}
+	}
 	
 	
 	public final static String getAbsoluteDir(Class<?> clazz) {
@@ -46,6 +56,45 @@ public class OneLiners {
         for(int i=0; i<n; i++)
             f[i] = x0 + i*dx;
         return f;
+	}
+	
+	public final static double[][] transpose(double dIn[][]){
+		int i,j,ni,nj;
+		ni = dIn.length;
+		if(ni <= 0)return new double[0][0];
+		nj = dIn[0].length;
+		double dOut[][] = new double[nj][ni];
+		for(i=0;i<ni;i++)
+			for(j=0;j<nj;j++)
+				dOut[j][i]=dIn[i][j];
+		
+		return dOut;
+	}
+	
+	public static double[][] meshGrid(double[]... values) {
+		if(values.length == 1) {
+			return transpose(values);
+		} else {
+			double[][] subvalues = new double[values.length-1][];
+			for(int i=0;i<subvalues.length;++i) {
+				subvalues[i] = values[i+1];
+			}
+			double[][] subgrid = meshGrid(subvalues);
+			
+			List<double[]> ret = new LinkedList<double[]>();
+			for(int i=0;i<values[0].length;++i) {
+				for(int j=0;j<subgrid.length;++j) {
+					double[] array = new double[subgrid[0].length+1];
+					array[0] = values[0][i];
+					for(int k=0;k<subgrid[0].length;++k) {
+						array[k+1] = subgrid[j][k];
+					}
+					ret.add(array);
+				}
+			}
+			return ret.toArray(new double[ret.size()][]);
+		}
+		
 	}
 	
 	public final static int countWordUsingScanner(String document, String word) {

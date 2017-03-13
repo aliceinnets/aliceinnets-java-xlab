@@ -21,7 +21,7 @@ public class PlayWithClassOfClass {
 			this.name = motherName+"."+name;
 		}
 		
-		private AClass(int pri) {
+		public AClass(int pri) {
 			this.pri = pri;
 		}
 		

@@ -1,14 +1,13 @@
 package aliceinnets.xlab;
 
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Random;
 
 public class Randompick {
 
 	public static void main(String[] args) {
 		Random random = new Random();
-		ArrayList unsorted = new ArrayList(),
-				sorted = new ArrayList();
+		ArrayList<Integer> unsorted = new ArrayList<Integer>(), sorted = new ArrayList<Integer>();
 
 		int[] keys_Array = new int[100];
 		for(int count = 0; count < 1000; count++){
@@ -17,12 +16,12 @@ public class Randompick {
 			unsorted.add(rand);
 			sorted.add(rand);
 		}
-		//System.out.print("\n\nSize: " + unsorted.size());
-		//System.out.print("\n");
-		//System.out.print("Contents:" + unsorted);
+		System.out.print("\n\nSize: " + unsorted.size());
+		System.out.print("\n");
+		System.out.print("Contents:" + unsorted);
 
 		for(int i=0;i<100;i++){
-			keys_Array[i] = (Integer) unsorted.remove( random.nextInt(unsorted.size()) );
+			keys_Array[i] = (Integer) unsorted.remove(random.nextInt(unsorted.size()));
 		}
 	}
 }
