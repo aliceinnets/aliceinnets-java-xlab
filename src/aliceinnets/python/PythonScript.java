@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.util.regex.Pattern;
 
 public class PythonScript {
 	
@@ -16,7 +17,7 @@ public class PythonScript {
 	
 	
 	public final static boolean exec(String pathname) throws IOException {
-		return exec(pathname, "python", true, true);
+		return exec(pathname, "python", false, false);
 	}
 	
 	
@@ -54,7 +55,7 @@ public class PythonScript {
 		log.append(COMMENT+"Python ends at "+System.nanoTime()+"\n");
 		
 		if(saveLog) {
-			String[] names = pathname.split("\\/+");
+			String[] names = pathname.split(Pattern.quote(File.separator));
 			PrintWriter out = new PrintWriter(new File(DEFAULT_PATH+names[names.length-1]+"_"+System.nanoTime()+".txt"));
 			out.write(log.toString());
 			out.close();

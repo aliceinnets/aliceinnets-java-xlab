@@ -40,16 +40,27 @@ public class Parser {
 				return buffer.toString();
 			} else {
 				StringBuffer buffer = new StringBuffer();
-//				buffer.append("[");
 				for(int i=0;i<Array.getLength(obj)-1;++i) {
 					buffer.append(toNumpyExpression(Array.get(obj, i)));
 					buffer.append(", ");
 				}
 				buffer.append(toNumpyExpression(Array.get(obj, Array.getLength(obj)-1)));
-//				buffer.append(" ]");
 				return buffer.toString();
 			}
 			
+		}
+	}
+	
+
+	public final static String toParameterName(String pythonParam) {
+		if(pythonParam.matches("\\*\\*.+")) {
+			return pythonParam.substring(2);
+		} else if(pythonParam.matches("\\*.+")) {
+			return pythonParam.substring(1);
+		} else if(pythonParam.contains("=")){
+			return pythonParam.split("\\=")[0];
+		} else {
+			return pythonParam;
 		}
 	}
 

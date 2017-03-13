@@ -51,17 +51,13 @@ public class TestJyPlot {
 				}
 			}
 			
-			System.out.println(OneLiners.getElementType(new Object[] { x, y, f}.getClass()));
-			System.out.println(new Object[] {f, x, y}.getClass().getComponentType());
-			System.out.println(f.getClass().getComponentType() instanceof Object);
-			
 			
 			new JyPlot()
 			.write("from matplotlib import cm\n")
 			.figure(null, null, null, null, null, null, null, null)
 			.plot(new Object[] { x, y}, null)
 			.plot(new Object[] { x, z, "\"-x\""}, null)
-			.grid()
+			.grid(null, null, null, null)
 			.xlabel("\"$f$\"", null, null)
 			.ylabel("\"$f$\"", null, null)
 			.ylim(new Double[] { -2.0, 2.0 }, null)
@@ -72,7 +68,7 @@ public class TestJyPlot {
 //			.contourf(new Object[] {x,x,f, 50}, new Object[] {"cmap = cm.jet"})
 			.colorbar(null, null, null, null)
 //			.plot(new Object[] { x, z, "\"-x\""}, null)
-			.grid()
+			.grid(null, null, null, null)
 			.xlabel("\"$T_e$ [keV]\"", null, null)
 			.ylabel("\"$n_e$ [$10^{19} m^{-3}$]\"", null, null)
 //			.ylim(new Double[] { -2.0, 2.0 }, null)
