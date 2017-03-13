@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.regex.Pattern;
 
+import aliceinnets.util.OneLiners;
+
 public class PythonModule {
 	
 	public final static String COMMENT = "#";
@@ -35,19 +37,8 @@ public class PythonModule {
 	
 	
 	public void save() throws FileNotFoundException {
-
-		String[] folders = pathname.split(Pattern.quote(File.separator));
-		
-		String path = folders[0];
-		
-		for (int i = 0; i < folders.length - 2; i++) {
-			path += File.separator + folders[i+1];
-			File pathName = new File(path);
-			if (!pathName.exists() || !pathName.isDirectory()) {
-				pathName.mkdir();
-			}
-		}
-
+		String path = pathname.substring(0, pathname.lastIndexOf(File.separator));
+		OneLiners.mkdirs(path);
 		PrintWriter out = new PrintWriter(new File(pathname));
 		out.write(script.toString());
 		out.close();

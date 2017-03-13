@@ -18,6 +18,16 @@ public class OneLiners {
 	}
 	
 	
+	public final static void mkdirs(String path) {
+		File dir = new File(path);
+		if(dir.exists() && !dir.isDirectory()) {
+			throw new RuntimeException(String.format("A file is exist already at %s", path));
+		} else {
+			dir.mkdirs();
+		}
+	}
+	
+	
 	public final static String getAbsoluteDir(Class<?> clazz) {
 		return clazz.getResource(clazz.getName()+".java").getPath().replace(clazz.getSimpleName()+".java", "");
 	}
