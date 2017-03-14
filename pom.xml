@@ -86,6 +86,30 @@
 			<artifactId>java-finance-api</artifactId>
 			<version>1.0.0</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>aliceinnets</groupId>
+			<artifactId>java-jyplot</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>aliceinnets</groupId>
+			<artifactId>java-python</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>aliceinnets</groupId>
+			<artifactId>java-utils</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>aliceinnets</groupId>
+			<artifactId>java-web</artifactId>
+			<version>1.0.0</version>
+		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
 		<dependency>
