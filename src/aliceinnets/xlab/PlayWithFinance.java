@@ -1,14 +1,15 @@
 package aliceinnets.xlab;
 
+import java.util.Arrays;
+
 import aliceinnets.finance.api.GoogleFinanceGetprices;
-import aliceinnets.util.OneLiners;
 
 public class PlayWithFinance {
 	
 	public static void main(String[] args) {
 		GoogleFinanceGetprices price = new GoogleFinanceGetprices("GOOG");
-		OneLiners.println(price.getDataColumns());
-		OneLiners.println(price.getData());
+		System.out.println(Arrays.toString(price.getDataColumns()));
+		System.out.println(Arrays.toString(price.getData()));
 	}
 
 }
