@@ -23,6 +23,19 @@ public class PlayWithReferences {
 		Double c = new Double(0.0);
 		changeObject(c, 1.0);
 		System.out.println(c);
+		
+		double[][] a1 = new double[][] { { Double.NaN, Double.NaN } };
+		OneLiners.println(a1);
+		changeElement(a1, 1.0);
+		OneLiners.println(a1);
+	}
+	
+	public static void changeElement(double[][] a, double b) {
+		for (int i = 0; i < a.length; i++) {
+			if(a[i].length > 0) {
+				a[i][0] = b;
+			}
+		}
 	}
 	
 	public static void changeElement(double[] a, double b) {
