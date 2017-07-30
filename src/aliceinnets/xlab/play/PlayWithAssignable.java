@@ -1,4 +1,4 @@
-package aliceinnets.xlab;
+package aliceinnets.xlab.play;
 
 public class PlayWithAssignable {
 	

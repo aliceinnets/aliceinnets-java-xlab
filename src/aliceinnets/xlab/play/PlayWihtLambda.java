@@ -1,4 +1,4 @@
-package aliceinnets.xlab;
+package aliceinnets.xlab.play;
 
 import java.util.ArrayList;
 import java.util.Collections;

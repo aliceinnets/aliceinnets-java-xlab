@@ -1,4 +1,4 @@
-package aliceinnets.xlab;
+package aliceinnets.xlab.play;
 
 import org.python.util.PythonInterpreter;
 

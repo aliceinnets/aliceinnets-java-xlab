@@ -1,4 +1,4 @@
-package aliceinnets.xlab;
+package aliceinnets.xlab.play;
 
 import quickfix.Application;
 import quickfix.DoNotSend;

@@ -1,4 +1,4 @@
-package aliceinnets.xlab;
+package aliceinnets.xlab.play;
 
 import aliceinnets.maven.util.MavenUtil;
 import aliceinnets.util.OneLiners;

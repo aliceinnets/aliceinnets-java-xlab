@@ -1,4 +1,4 @@
-package aliceinnets.xlab;
+package aliceinnets.xlab.play;
 
 import java.io.BufferedReader;
 import java.io.File;

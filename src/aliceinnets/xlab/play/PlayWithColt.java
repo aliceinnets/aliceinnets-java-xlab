@@ -1,4 +1,4 @@
-package aliceinnets.xlab;
+package aliceinnets.xlab.play;
 
 import aliceinnets.python.jyplot.JyPlot;
 import aliceinnets.util.OneLiners;

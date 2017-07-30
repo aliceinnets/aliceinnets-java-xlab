@@ -87,13 +87,18 @@
 		</dependency>
 		<dependency>
 			<groupId>aliceinnets</groupId>
-			<artifactId>java-finance-api</artifactId>
+			<artifactId>java-utils</artifactId>
 			<version>1.0.1</version>
 		</dependency>
 		<dependency>
 			<groupId>aliceinnets</groupId>
-			<artifactId>java-jyplot</artifactId>
-			<version>1.0.3</version>
+			<artifactId>java-web</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+		<dependency>
+			<groupId>aliceinnets</groupId>
+			<artifactId>java-finance-api</artifactId>
+			<version>1.0.0</version>
 		</dependency>
 		<dependency>
 			<groupId>aliceinnets</groupId>
@@ -102,13 +107,8 @@
 		</dependency>
 		<dependency>
 			<groupId>aliceinnets</groupId>
-			<artifactId>java-utils</artifactId>
-			<version>1.0.1</version>
-		</dependency>
-		<dependency>
-			<groupId>aliceinnets</groupId>
-			<artifactId>java-web</artifactId>
-			<version>1.0.1</version>
+			<artifactId>java-jyplot</artifactId>
+			<version>1.0.3</version>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
 		<dependency>
